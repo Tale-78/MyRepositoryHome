@@ -1,0 +1,61 @@
+using System;
+using System.Diagnostics;
+
+namespace ConsoleApp2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Beep(1000, 3000) ;
+
+            Process p = new Process();
+            
+            p.StartInfo.FileName = @"C:\Users\User\source\repos\ConsoleApp1\ConsoleApp1\bin\Debug\netcoreapp3.1\ConsoleApp1.exe";
+            p.StartInfo.UseShellExecute = false; // получает контроль над приложением
+
+            p.StartInfo.RedirectStandardInput = true; // перехватывает поток ввода в программу-взломщик
+
+            p.StartInfo.RedirectStandardOutput = true;
+
+            p.Start(); // запускает программу
+            String ans = p.StandardOutput.ReadLine();
+            char a, b, c;
+            for (a = (char)47; a <= (char)122; a++) // цикл по А (для 0 и 1) - внутри 4 сочетания для каждого А
+            {
+                for (b = (char)47; b <= (char)122; b++) // цикл по А (для 0 и 1) - внутри 4 сочетания для каждого А
+                {
+
+                    for (c = (char)47; c <= (char)122; c++) // цикл по А (для 0 и 1) - внутри 4 сочетания для каждого А
+                    {
+
+                        p.StandardInput.WriteLine("{0}{1}{2}", a, b, c);
+                        Console.WriteLine("Пароль {0}{1}{2} ", a, b, c); // вывод на экран
+                        ans = p.StandardOutput.ReadLine(); // в каждом проходе цикла читаем сообщение от программы-жертвы
+
+
+
+                        if (ans.IndexOf("Введите пароль:") != 0) // если перестала выдавать "Введите пароль", доступ получен!!!!
+
+                        {
+
+                            Console.WriteLine("Дело в шляпе. Выхожу из цикла подбора..."); // вывести результат
+
+                            Console.ReadLine(); //оставить результат на экране
+
+
+                        }
+                        
+                    }
+                }
+
+            }
+
+
+
+
+
+        }
+    }
+}
+This is a Virus programm ( old programm )
